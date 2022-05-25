@@ -4,18 +4,14 @@ header-includes: |
 	 \usepackage{fancyhdr}
 	 \usepackage{physics}
 	 \usepackage{hyperref}
+	 \usepackage{graphicx}
+	\graphicspath{ {./images/} }
 	\DeclareMathOperator*{\argmax}{arg\,max}
 	\DeclareMathOperator*{\argmin}{arg\,min}
-geometry: margin=16mm
+title:
+- Regression II
+author:
+- COMP9417, 22T2
 ---
 
-# This is a title
-
-## This is a test.
-### This is a subheading
-- Something something linear regression
-- Jesus
-
----
-
-# Should be a blank page
+# Stats, stats, stats ...
