@@ -16,13 +16,56 @@ author:
 
 # Stats, stats, stats ...
 
-## Probabilty Distribution
+## Probability Distribution
 
 A probability distribution represents the probability we see a value $x$ in a sample $X$. We denote this as $P(X=x)$.
 
-We typically assume our sample are i.i.d (independent and identically distributed), helping us reduce the complexity of the problem and apply statistically supported conclusions.
+### Definition
+- Probability *mass* function applies to discrete $X$
+- Probability *density* function applies to continous $X$
 
-The tutorial discusses the Gaussian/Normal and Bernoulli distributions.
+---
+
+## Expected Values
+An expected value (denoted $\mathbb{E}$) represents the weighted average of the probability distribution. This is typically seen as the value the distribution will converge to over time if sampled randomly.
+
+For a discrete random variable, the form for an expected value is as follows:
+\begin{align*}
+    \mathbb{E}(X) = \sum_{x \in X} x P(X = x)
+\end{align*}
+
+In the continuous case, where $f(x)$ is the probability density function:
+\begin{align*}
+    \mathbb{E}(X) = \int_{-\infty}^{\infty} x f(x) dx
+\end{align*}
+
+
+---
+
+### Example
+**Problem:** Model the probability mass function and find the expected value of the roll of a dice.
+
+- $P(X = 1) = \frac{1}{6}$, $P(X = 2) = \frac{1}{6}$, ..., $P(X = 6) = \frac{1}{6}$
+
+\vspace{12pt}
+For the expected value:
+
+\begin{align*}
+\mathbb{E}(X) = 1 \cdot \frac{1}{6} + 2 \cdot \frac{1}{6} + 3 \cdot \frac{1}{6} + \cdots + 6 \cdot \frac{1}{6} = 3.5
+\end{align*}
+
+This means that if we roll a dice, overtime the average dice value will converge to $3.5$. 
+
+---
+
+\begin{center}
+\includegraphics[scale=0.25]{tut2_diceroll.png}
+\end{center}
+
+---
+
+
+We typically assume our samples are i.i.d (independent and identically distributed), helping us reduce the complexity of the problem and apply statistically supported conclusions.
 
 ## Gaussian Distribution
 
@@ -70,7 +113,7 @@ To make life easier, we typically work with the log of the likelhood function (l
 
 This makes differentiating, and therefore maximising much easier.
 
-## 1a
+# 1a
 
 **Problem**: Given $X_1, \cdots, X_n \sim N(\mu, 1)$, find $\hat{\mu}_{\text{MLE}}$.
 
@@ -95,3 +138,40 @@ Next, we differentiate with respect to our parameter $\mu$,
     \hat{\mu} &= \frac{1}{n} \sum_{i=1}^n X_i \\
     \hat{\mu} &= \bar{X}
 \end{align*}
+
+# 1b
+
+**Problem**: Given $X_1, \cdots, X_n \sim \text{Bernoulli}(p)$, find $\hat{p}_{\text{MLE}}$.
+
+The Bernoulli distribution models processes with 2 outcomes (eg. a coin toss).
+
+\vspace{-.5cm}
+
+\begin{align*}
+  P(X = k) &= p^{k}(1-p)^{1-k}, \quad\quad k=0,1 \quad p \in [0,1]
+\end{align*}
+
+First, we define our likelihood function:
+
+\vspace{-.5cm}
+\begin{align*}
+    \log L(\mu) &= \log \left( \prod_{i=1}^n p^{X_i}(1-p)^{X_{i}} \right) \\
+    &= \sum_{i=1}^{n} \log p^{X_i} + \sum_{i=1}^{n} \log (1-p)^{X_{i}} \\
+    &= n \bar{X} \log p + n(1-\bar{X})\log(1-p)
+\end{align*}
+
+---
+
+Next, we differentiate with respect to our parameter $p$,
+
+\vspace{-.5cm}
+\begin{align*}
+    \frac{\partial\log L(p)}{\partial p} &= \frac{n \bar{X}}{p} - \frac{n(1-\bar{X})}{1-p} \\
+    \frac{\partial\log L(p)}{\partial\hat{p}} = 0 & \text{ at the minimum. So, } \\
+    \frac{n \bar{X}}{\hat{p}} - \frac{n(1-\bar{X})}{1-\hat{p}} &= 0 \\
+    n \bar{X} - n \bar{X}\hat{p} &= n(1-\bar{X})\hat{p} \\
+     \hat{p}(n(1-\bar{X}) + n \bar{X}) &=n \bar{X}  \\
+     \hat{p} &= \bar{X}  \\
+\end{align*}
+
+# Bias \& Variance
