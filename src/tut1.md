@@ -73,7 +73,7 @@ What will our loss function need?
 
 ---
 
-To make life easy, define a loss function:
+To make life easy, we define our loss function as:
 
 \begin{align*}
 	L(w_0, w_1) &= \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y_i})^2 & \text{ a.k.a MSE } \\
@@ -90,13 +90,13 @@ Derive the least-squares estimates for the univariate linear regression model.
 
 i.e Solve:
 \begin{align*}
-	\argmin_{w_0, w_1} L(w_0, w_1) \\
-	\argmin_{w_0, w_1} \frac{1}{n} \sum_{i=1}^n (y_i - w_0 - w_1 x_i)^2 \\
+	\argmin_{w_0, w_1}& L(w_0, w_1) \\
+	\argmin_{w_0, w_1}& \frac{1}{n} \sum_{i=1}^n (y_i - w_0 - w_1 x_i)^2 \\
 \end{align*}
 
 ---
 
-First, 
+First we differentiate $L(w_0, w_1)$ with respect to $w_0$, 
 \begin{align*}
 	\frac{\partial L(w_0, w_1)}{\partial w_0} &= -\frac{2}{n} \sum_{i=1}^n (y_i - w_0 - w_1 x_i) \\
 	&= -\frac{2}{n} \left( \sum_{i=1}^n y_i - n w_0 - w_1 \sum_{i=1}^n x_i \right) \\
@@ -137,7 +137,7 @@ $\frac{\partial L(w_0, w_1)}{\partial w_1} = 0$,
 
 \begin{equation}
 \begin{aligned}
-	\overline{xy} -  w_0 \bar{x} - w_1 \bar{x^2} &= 0 \\
+	\overline{xy} -  w_0 \bar{x} - w_1 \overline{x^2} &= 0 \\
 	w_1 &= \frac{\overline{xy} -  w_0 \bar{x}}{\overline{x^2}}\\
 \end{aligned}
 \end{equation}
@@ -155,7 +155,7 @@ Sub (1) into (2):
 Finally, we have
 
 \begin{align*}
-	w_1 &= \frac{\overline{xy} -  \bar{x}\bar{y}}{\overline{x^2} - \bar{x}^2} \text{ and } w_0 = \bar{y} - \bar{x} \frac{\overline{xy} -  \bar{x}\bar{y}}{\overline{x^2} - \bar{x}^2}\\
+	w_1 &= \frac{\overline{xy} -  \bar{x}\bar{y}}{\overline{x^2} - \bar{x}^2} \text{ and } w_0 = \bar{y} - w_1 \bar{x}
 \end{align*}
 
 
@@ -163,7 +163,7 @@ Finally, we have
 
 **Problem**: Prove $(\bar{x}, \bar{y})$ is on the line.
 
-From 1(a), we have
+From 1(a), the equation of our line ($\hat{y} = w_0 + w_1 x$) becomes:
 
 \begin{align*}
 	\hat{y} &= \bar{y} - \bar{x} \frac{\overline{xy} -  \bar{x}\bar{y}}{\overline{x^2} - \bar{x}^2} + \frac{\overline{xy} -  \bar{x}\bar{y}}{\overline{x^2} - \bar{x}^2} x \\
@@ -172,7 +172,7 @@ From 1(a), we have
 Sub $x = \bar{x}$, 
 \begin{align*}
 	\hat{y} &= \bar{y} - \bar{x} \frac{\overline{xy} -  \bar{x}\bar{y}}{\overline{x^2} - \bar{x}^2} + \frac{\overline{xy} -  \bar{x}\bar{y}}{\overline{x^2} - \bar{x}^2} \bar{x} \\
-	\hat{y} &= \bar{y} & \blacksquare
+	\hat{y} &= \bar{y} & \therefore (\bar{x}, \bar{y}) \text{ is on the line }
 \end{align*}
 
 ## 1c
@@ -291,7 +291,6 @@ X^T X &= \begin{bmatrix} n & n \bar{x} \\ n \bar{x} & n\overline{x^2} \end{bmatr
 \begin{equation*}
 \begin{aligned}
 (X^T X)^{-1} X^T y &= \frac{1}{n(\overline{x^2} - \bar{x}^2)}\begin{bmatrix} \overline{x^2} & -\bar{x} \\ -\bar{x} & 1 \end{bmatrix} \begin{bmatrix} n \bar{y} \\ n \overline{xy} \end{bmatrix} \\
-&= \frac{1}{n(\overline{x^2} - \bar{x}^2)}\begin{bmatrix} \overline{x^2} & -\bar{x} \\ -\bar{x} & 1 \end{bmatrix} \begin{bmatrix} n \bar{y} \\ n \overline{xy} \end{bmatrix} \\
 &= \frac{1}{(\overline{x^2} - \bar{x}^2)}\begin{bmatrix} \overline{x^2}\bar{y} - \bar{x} \overline{xy} \\ \overline{xy} - \bar{x} \bar{y} \end{bmatrix} \\
 &= \begin{bmatrix} \bar{y} - \hat{w}_1 \bar{x} \\ \frac{\overline{xy} - \bar{x} \bar{y}}{(\overline{x^2} - \bar{x}^2)} \end{bmatrix}
 \end{aligned}
