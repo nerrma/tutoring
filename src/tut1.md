@@ -14,6 +14,10 @@ author:
 - COMP9417, 22T2
 ---
 
+# What do you prefer?
+
+More theory, more practice (i.e Python and using packages), going through questions, consultation etc.
+
 # Thinking Machine Learning
 
 We try to make sense of data using mathematics to help us quantify what we *know*.
