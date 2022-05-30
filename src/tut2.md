@@ -8,13 +8,14 @@ header-includes: |
 	\graphicspath{ {./images/} }
 	\DeclareMathOperator*{\argmax}{arg\,max}
 	\DeclareMathOperator*{\argmin}{arg\,min}
+    \newcommand{\mle}[1]{\hat{#1}_{\text{MLE}}}
 title:
 - Regression II
 author:
 - COMP9417, 22T2
 ---
 
-# Stats, stats, stats ...
+# Stats, stats, stats \ldots
 
 ## Probability Distribution
 
@@ -45,7 +46,7 @@ In the continuous case, where $f(x)$ is the probability density function:
 ### Example
 **Problem:** Model the probability mass function and find the expected value of the roll of a dice.
 
-- $P(X = 1) = \frac{1}{6}$, $P(X = 2) = \frac{1}{6}$, ..., $P(X = 6) = \frac{1}{6}$
+- $P(X = 1) = \frac{1}{6}$, $P(X = 2) = \frac{1}{6}$, \ldots, $P(X = 6) = \frac{1}{6}$
 
 \vspace{12pt}
 For the expected value:
@@ -95,7 +96,7 @@ We typically write $X \sim \mathcal{N}(\mu, \sigma^2)$ to say $X$ is normally di
 Maximum likelihood estimation is the process of estimating the parameters of a distribution of sample data by maximising the overall likelihood of the samples occuring in the distribution.
 
 \begin{align*}
-    \text{Prob of observing } X_1, \cdots, X_n &= \text{Prob of observing } X_1 \times \cdots \times \text{Prob of observing } X_n \\
+    \text{Prob of observing } X_1, \ldots, X_n &= \text{Prob of observing } X_1 \times \cdots \times \text{Prob of observing } X_n \\
     &= p_\theta (X_1) \times \cdots \times p_\theta(X_n) \\
     &= \prod_{i=1}^n p_\theta (X_i) \\
     &=: L(\theta) \text{ \quad \quad this is our likelihood function}
@@ -113,7 +114,8 @@ To make life easier, we typically work with the log of the likelhood function (l
 
 This makes differentiating, and therefore maximising much easier.
 
-# 1a
+# 1 (a, b)
+## 1a
 
 **Problem**: Given $X_1, \cdots, X_n \sim N(\mu, 1)$, find $\hat{\mu}_{\text{MLE}}$.
 
@@ -139,9 +141,9 @@ Next, we differentiate with respect to our parameter $\mu$,
     \hat{\mu} &= \bar{X}
 \end{align*}
 
-# 1b
+## 1b
 
-**Problem**: Given $X_1, \cdots, X_n \sim \text{Bernoulli}(p)$, find $\hat{p}_{\text{MLE}}$.
+**Problem**: Given $X_1, \ldots, X_n \sim \text{Bernoulli}(p)$, find $\hat{p}_{\text{MLE}}$.
 
 The Bernoulli distribution models processes with 2 outcomes (eg. a coin toss).
 
@@ -175,3 +177,50 @@ Next, we differentiate with respect to our parameter $p$,
 \end{align*}
 
 # Bias \& Variance
+
+## Bias
+The bias of an estimator represents its theoretical error. This theoretical error is the distance of the expected value of the predicted estimator away from the true parameter. We take the expected value for a representation of the estimate over an infinitely large dataset.
+
+In the case of a model, this represents the error of the model on the training set.
+
+*There will be a more in-depth discussion of this later on in the course.*
+
+\begin{align*}
+  \text{bias}(\hat{\theta}) = \mathbb{E}(\hat{\theta}) - \theta
+\end{align*}
+
+## Variance
+
+The variance of an estimator refers to how different or *variable* it is over different data. Again, we take the expected value to find the converging value over a theoretically infinitely large dataset.
+
+When applying this to a model, we'll discover that a large variance and a low bias typically means that our model has *overfit* the training set.
+
+\begin{align*}
+  \text{var}(\hat{\theta}) &= \mathbb{E}(\theta - \mathbb{E}(\hat{\theta}))^{2} \\
+\end{align*}
+
+# 2 (a, b, c)
+## 2a
+*Problem*: Find the bias and variance of $\mle{\mu}$ for $\mathbf{X} \sim N(\mu, 1)$.
+
+We know that $\mle{\mu} = \bar{X}$. So,
+\begin{align*}
+  \text{bias}(\bar{X}) &= \mathbb{E}(\bar{X}) - \mu \\
+  &= \frac{1}{n} \mathbb{E}\left(\sum_{i=0}^{n}X_{i}\right) - \mu \\
+  &= \frac{1}{n} \sum_{i=0}^{n}\mathbb{E}(X_{i}) - \mu \\
+  &= \frac{1}{n} n\mu - \mu \\
+  &= 0
+\end{align*}
+
+---
+
+\begin{align*}
+  \text{var}(\hat{\mu}) &= \text{var}(\bar{X}) \\
+  &= \text{var}\left(\frac{1}{n} \sum_{i=0}^{n}\mathbb{E}(X_{i}) \right) \\
+  &= \frac{1}{n^{2}} \sum_{i=0}^{n}\text{var}(\mathbb{E}(X_{i})) \\
+  &= \frac{1}{n^{2}} n = \frac{1}{n}
+\end{align*}
+
+
+## 2b
+## 2c

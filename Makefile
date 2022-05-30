@@ -3,7 +3,6 @@ SLIDES = $(patsubst src/%.md, slides/slides_%.pdf, $(TEXS))
 NOTES = $(patsubst src/%.md, notes/%.pdf, $(TEXS))
 
 all: $(SLIDES)
-	echo $(TEXS)
 notes: $(NOTES)
 
 slides/slides_%.pdf: src/%.md
