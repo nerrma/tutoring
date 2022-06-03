@@ -249,7 +249,7 @@ Therefore, $\mathcal{L}$ is convex and $\hat{w}$ is the unique global minimum.
 
 ## 2c
 
-$x_i = \begin{bmatrix} 1 \\ x_{i1} \end{bmatrix}$ to represent our input \& the bias ($w_0$)
+$x_i = \begin{bmatrix} 1 & x_{i1} \end{bmatrix}$ to represent our input \& the bias ($w_0$)
 
 $y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix}$ to represent the target variable
 
@@ -262,9 +262,9 @@ $w = \begin{bmatrix} w_0 \\ w_1 \end{bmatrix}$ to represent the parameters
 :::: column
 \begin{equation*}
 \begin{aligned}
-X &= \begin{bmatrix} 1 & x_{11} \\ 1 & x_{21} \\ \vdots & \vdots \\1 & x_{n1} \end{bmatrix} \\
-X^T y &= \begin{bmatrix} 1 & 1 &\cdots& 1 \\ x_{11} &x_{21} &\cdots &x_{n1}  \end{bmatrix} \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix}\\
-X^T y &= \begin{bmatrix} n \bar{y} \\ n \overline{xy} \end{bmatrix}
+	X &= \begin{bmatrix} 1 & x_{11} \\ 1 & x_{21} \\ \vdots & \vdots \\1 & x_{n1} \end{bmatrix} \\
+	X^T y &= \begin{bmatrix} 1 & 1 &\cdots& 1 \\ x_{11} &x_{21} &\cdots &x_{n1}  \end{bmatrix} \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix}\\
+	X^T y &= \begin{bmatrix} n \bar{y} \\ n \overline{xy} \end{bmatrix}
 \end{aligned}
 \end{equation*}
 ::::
@@ -272,9 +272,9 @@ X^T y &= \begin{bmatrix} n \bar{y} \\ n \overline{xy} \end{bmatrix}
 :::: column
 \begin{equation*}
 \begin{aligned}
-X^T X &= \begin{bmatrix} 1 & 1 &\cdots& 1 \\ x_{11} &x_{21} &\cdots &x_{n1}  \end{bmatrix} \begin{bmatrix} 1 & x_{11} \\ 1 & x_{11} \\ \vdots & \vdots \\1 & x_{n1} \end{bmatrix} \\
-&= \begin{bmatrix} n & \sum_{i=1}^n x_i \\ \sum_{i=1}^n x_i & \sum_{i=1}^n x_i^2 \end{bmatrix} \\
-&= \begin{bmatrix} n & n \bar{x} \\ n \bar{x} & n \overline{x^2} \end{bmatrix}
+	X^T X &= \begin{bmatrix} 1 & 1 &\cdots& 1 \\ x_{11} &x_{21} &\cdots &x_{n1}  \end{bmatrix} \begin{bmatrix} 1 & x_{11} \\ 1 & x_{11} \\ \vdots & \vdots \\1 & x_{n1} \end{bmatrix} \\
+	&= \begin{bmatrix} n & \sum_{i=1}^n x_i \\ \sum_{i=1}^n x_i & \sum_{i=1}^n x_i^2 \end{bmatrix} \\
+	&= \begin{bmatrix} n & n \bar{x} \\ n \bar{x} & n \overline{x^2} \end{bmatrix}
 \end{aligned}
 \end{equation*}
 ::::
@@ -285,19 +285,19 @@ X^T X &= \begin{bmatrix} 1 & 1 &\cdots& 1 \\ x_{11} &x_{21} &\cdots &x_{n1}  \en
 
 \begin{equation*}
 \begin{aligned}
-X^T X &= \begin{bmatrix} n & n \bar{x} \\ n \bar{x} & n\overline{x^2} \end{bmatrix} \\
-(X^T X)^{-1} &= \frac{1}{n^2\overline{x^2} - n^2 \bar{x}^2}\begin{bmatrix} n \overline{x^2} & -n \bar{x} \\ -n \bar{x} & n \end{bmatrix} \\
-&= \frac{1}{n(\overline{x^2} - \bar{x}^2)}\begin{bmatrix} \overline{x^2} & -\bar{x} \\ -\bar{x} & 1 \end{bmatrix} \\
+	X^T X &= \begin{bmatrix} n & n \bar{x} \\ n \bar{x} & n\overline{x^2} \end{bmatrix} \\
+	(X^T X)^{-1} &= \frac{1}{n^2\overline{x^2} - n^2 \bar{x}^2}\begin{bmatrix} n \overline{x^2} & -n \bar{x} \\ -n \bar{x} & n \end{bmatrix} \\
+	&= \frac{1}{n(\overline{x^2} - \bar{x}^2)}\begin{bmatrix} \overline{x^2} & -\bar{x} \\ -\bar{x} & 1 \end{bmatrix} \\
 \end{aligned}
 \end{equation*}
 
 ## 2d
 \begin{equation*}
 \begin{aligned}
-(X^T X)^{-1} X^T y &= \frac{1}{n(\overline{x^2} - \bar{x}^2)}\begin{bmatrix} \overline{x^2} & -\bar{x} \\ -\bar{x} & 1 \end{bmatrix} \begin{bmatrix} n \bar{y} \\ n \overline{xy} \end{bmatrix} \\
-&= \frac{1}{(\overline{x^2} - \bar{x}^2)}\begin{bmatrix} \overline{x^2}\bar{y} - \bar{x} \overline{xy} \\ \overline{xy} - \bar{x} \bar{y} \end{bmatrix} \\
-&= \begin{bmatrix} \bar{y} - \hat{w}_1 \bar{x} \\ \frac{\overline{xy} - \bar{x} \bar{y}}{(\overline{x^2} - \bar{x}^2)} \end{bmatrix}
+	(X^T X)^{-1} X^T y &= \frac{1}{n(\overline{x^2} - \bar{x}^2)}\begin{bmatrix} \overline{x^2} & -\bar{x} \\ -\bar{x} & 1 \end{bmatrix} \begin{bmatrix} n \bar{y} \\ n \overline{xy} \end{bmatrix} \\
+	&= \frac{1}{\overline{x^2} - \bar{x}^2}\begin{bmatrix} \overline{x^2}\bar{y} - \bar{x} \overline{xy} \\ \overline{xy} - \bar{x} \bar{y} \end{bmatrix} \\
+	&= \begin{bmatrix} \bar{y} - \hat{w}_1 \bar{x} \\ \frac{\overline{xy} - \bar{x} \bar{y}}{\overline{x^2} - \bar{x}^2} \end{bmatrix}
 \end{aligned}
 \end{equation*}
 
-# 2e - Lab
+# 2e - Jupyter Time
