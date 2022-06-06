@@ -202,6 +202,15 @@ Notice how the coefficients have an inverse relationship with $\lambda$.
 
 # Question 2 (a $\to$ h)
 
+## Math for multiple linear regression
+
+Say we have our weight vector $w$ and a constant vector $c$,
+\begin{align*}
+	\frac{\partial (c w)}{\partial w} = c^{T} \\
+	\frac{\partial (w^{T} c w)}{\partial w} = 2cw \\
+	\frac{\partial (c w^{2})}{\partial w} = 2cw \\
+\end{align*}
+
 ## 2a
 
 **Problem**: Show that $\mathcal{L}(w) = \frac{1}{n} \norm{y - Xw}^2_2$ has critical point $\hat{w} = (X^T X)^{-1} X^T y$.
