@@ -86,7 +86,7 @@ To make life easy, we define our loss function as:
 
 The minimum of our loss function w.r.t $w_0$ and $w_1$ will be their optimal values respectively.
 
-# Question 1 (a, b, c)
+# Question 1 (a $\to$ c)
 
 ## 1a
 
@@ -200,7 +200,7 @@ Final result is:
 Notice how the coefficients have an inverse relationship with $\lambda$.
 
 
-# Question 2 (a, b, c, d)
+# Question 2 (a $\to$ h)
 
 ## 2a
 
@@ -214,16 +214,16 @@ To find optimal $w$, solve $\displaystyle \frac{\partial\mathcal{L}(w)}{\partial
 	&= \frac{1}{n} \left( y^T y - 2y^T X w + w^T X^T X w \right) \\
 \end{align*}
 
-\begin{align*}
-	\frac{\partial\mathcal{L}(w)}{\partial w} &= -\frac{1}{n} (-2 X^t y + 2 X^T X w) \\
-\end{align*}
-
 ---
+
+\begin{align*}
+	\frac{\partial\mathcal{L}(w)}{\partial w} &= -\frac{1}{n} (-2 X^T y + 2 X^T X w) \\
+\end{align*}
 
 To solve for $\hat{w}$,
 
 \begin{align*}
-	- 2 X^t y + 2 X^T X \hat{w} = 0\\
+	- 2 X^T y + 2 X^T X \hat{w} = 0\\
 	\hat{w} = (X^T X)^{-1} X^T y\\
 \end{align*}
 
@@ -249,7 +249,7 @@ Therefore, $\mathcal{L}$ is convex and $\hat{w}$ is the unique global minimum.
 
 ## 2c
 
-$x_i = \begin{bmatrix} 1 & x_{i1} \end{bmatrix}$ to represent our input \& the bias ($w_0$)
+$x_i = \begin{bmatrix} 1 \\ x_{i1} \end{bmatrix}$ to represent our input \& the bias ($w_0$)
 
 $y = \begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix}$ to represent the target variable
 
@@ -300,4 +300,65 @@ $w = \begin{bmatrix} w_0 \\ w_1 \end{bmatrix}$ to represent the parameters
 \end{aligned}
 \end{equation*}
 
-# 2e - Jupyter Time
+## 2e - Lab
+
+\begin{center}
+  Onto Jupyter.
+\end{center}
+
+## 2f
+
+Say we have the classic regression problem with data $X \in \mathbb{R}^{n \times p}$ and target variable $y \in \mathbb{R}^{n}$. We can define a feature mapping $\phi : \mathbb{R}^{p} \to \mathbb{R}^{K}$. For example, say we have $p=1$ and we choose $K=4$, our mapping can be as follows
+\begin{equation*}
+\begin{aligned}
+  \phi(x) = \begin{bmatrix} x, &x^{2}, &x^{3}, &x^{4} \end{bmatrix}^{T}
+\end{aligned}
+\end{equation*}
+
+So our original model for a data point $i \in [1,n]$ becomes
+
+\begin{center}
+	$\hat{y_{i}} = w^{t} \phi(x_{i})$.
+\end{center}
+
+---
+
+We can generalise our transformation to the matrix:
+\begin{equation*}
+\begin{aligned}
+  \Phi(x) = \begin{bmatrix} \phi(x_{1})^{T} \\ \phi(x_{2})^{T} \\ \vdots \\ \phi(x_{n})^{T}\end{bmatrix} \in \mathbb{R}^{n \times K}
+\end{aligned}
+\end{equation*}
+
+As we use the transpose of our transformation, our model now takes the form $\hat{y} = \Phi w$.
+
+This allows us to solve
+\begin{equation*}
+\begin{aligned}
+  \hat{w} &= \argmin_{w} \frac{1}{n} \norm{y - \Phi w}_{2}^{2} \\
+\end{aligned}
+\end{equation*}
+
+Which gives us the classic form of the LS solution:
+\begin{equation*}
+\begin{aligned}
+  \hat{w} &= (\Phi^{T} \Phi)^{-1} \Phi^{T} y
+\end{aligned}
+\end{equation*}
+
+## 2h
+
+MSE$\displaystyle (w) = \argmin_{w} \frac{1}{n} \norm{y - X w}_{2}^{2}$ and SSE$\displaystyle (w) = \argmin_{w} \norm{y - X w}_{2}^{2}$
+
+
+**i)** Is the minimiser of MSE and SSE the same?
+
+**ii)** Is the minimum value of MSE and SSE the same?
+
+# 3 (a $\to$ b)
+
+## 3a
+*What is the difference between a population and a sample?*
+
+## 3b
+*What is population parameter? How can we estimate it?*
