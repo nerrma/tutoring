@@ -247,7 +247,6 @@ To solve for $\hat{w}$,
 So, for a vector $u \in \mathbb{R}^p$, 
 \begin{align*}
 	u^T (2 X^T X) u &= 2(u^TX^T)(Xu) \\
-	&= 2(u^TX^T)(Xu) \\
 	&= 2(Xu)^T(Xu) \\
 	&= 2\norm{Xu}^2_2 \geq 0 \\
 \end{align*}
