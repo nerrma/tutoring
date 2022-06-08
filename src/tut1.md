@@ -14,7 +14,21 @@ author:
 - COMP9417, 22T2
 ---
 
-# What do you prefer?
+# Intro
+
+What you'll get from this course:
+
+- Understand the basis of machine learning
+- ML algorithms and the math behind them
+- Ability to implement these ideas in Python
+
+How to do well:
+
+- Fully understand tut questions from week to week (they pile up)
+- Don't be afraid of math or notation, break it all down
+- Keep researching
+
+## What do you prefer?
 
 More theory, more practice (i.e Python and using packages), going through questions, consultation etc.
 
