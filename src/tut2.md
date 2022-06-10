@@ -40,6 +40,14 @@ In the continuous case, where $f(x)$ is the probability density function:
     \mathbb{E}(X) = \int_{-\infty}^{\infty} x f(x) dx
 \end{align*}
 
+---
+
+### General rules
+
+For random variables $X, Y$ and a constant $c$
+
+- $\displaystyle \mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y]$
+- $\displaystyle \mathbb{E}[cX] = c\mathbb{E}[X]$
 
 ---
 
@@ -223,4 +231,42 @@ We know that $\mle{\mu} = \bar{X}$. So,
 
 
 ## 2b
+
+Find the bias and variance of $\mle{p}$ for $X \sim$ Bernoulli$(p)$.
+
+We know that $\mle{p} = \overline{X}$, so
+
+\begin{align*}
+  bias(\mle{p}) &= \mathbb{E}(\mle{p}) - \mu \\
+  &= \overline{X} - \mu \\
+  &= 0 \\
+\end{align*}
+
+---
+
+\begin{align*}
+  var(\mle{p}) &= var(\bar{X}) \\
+  &= var\left( \frac{1}{n} \sum_{i=1}^{n} x_{i} \right) \\
+  &=\frac{1}{n^{2}} \sum_{i=1}^{n}  var\left( x_{i} \right) \\
+ &=\frac{1}{n^{2}} np(1-p) \\
+  &= \frac{p(1-p)}{n}\\
+\end{align*}
+
 ## 2c
+
+Perform bias-variance decomposition i.e prove that MSE$(\hat{\theta}) =$bias$(\hat{\theta})^{2}$ + var$(\hat{\theta})$.
+
+\begin{align*}
+  \text{MSE}(\hat{\theta}) &= \mathbb{E}(\hat{\theta} - \theta)^{2} \\
+  &= \mathbb{E}\left[\hat{\theta} - \mathbb{E}(\hat{\theta}) + \mathbb{E}(\hat{\theta}) - \theta\right]^{2} \\
+  &= \mathbb{E}\left[(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + 2(\hat{\theta} - \mathbb{E}(\hat{\theta}))(\mathbb{E}(\hat{\theta}) - \theta) + (\mathbb{E}(\hat{\theta}) - \theta)^{2}\right] \\
+  &= \mathbb{E}(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + 2\mathbb{E}[(\hat{\theta} - \mathbb{E}(\hat{\theta}))(\mathbb{E}(\hat{\theta}) - \theta)] + \mathbb{E}((\mathbb{E}(\hat{\theta}) - \theta)^{2}) \\
+  &= \mathbb{E}(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + 2(\mathbb{E}(\hat{\theta}) - \mathbb{E}(\hat{\theta}))(\mathbb{E}(\hat{\theta}) - \mathbb{E}(\theta)) + \mathbb{E}((\mathbb{E}(\hat{\theta}) - \theta)^{2}) \\
+\end{align*}
+
+---
+\begin{align*}
+  &= \mathbb{E}(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + \mathbb{E}(\mathbb{E}(\hat{\theta}) - \theta)^{2} \\
+  &= \mathbb{E}(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + (\mathbb{E}(\hat{\theta}) - \theta)^{2} \\
+  &= \text{var}(\hat{\theta}) + \text{bias}(\hat{\theta})^{2}
+\end{align*}
