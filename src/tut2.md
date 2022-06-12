@@ -265,8 +265,59 @@ Perform bias-variance decomposition i.e prove that MSE$(\hat{\theta}) =$bias$(\h
 \end{align*}
 
 ---
+
 \begin{align*}
   &= \mathbb{E}(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + \mathbb{E}(\mathbb{E}(\hat{\theta}) - \theta)^{2} \\
   &= \mathbb{E}(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + (\mathbb{E}(\hat{\theta}) - \theta)^{2} \\
   &= \text{var}(\hat{\theta}) + \text{bias}(\hat{\theta})^{2}
+\end{align*}
+
+# 3
+## 3a
+
+Paraphrasing the problem, we assume that our data has a linear relationship. This means we have,
+
+\begin{align*}
+  y &= x^{T} \beta^{*} + \epsilon, & \epsilon \sim N(0, \sigma^{2})
+\end{align*}
+
+So,
+\begin{align*}
+  y|x \sim N(x^{T} \beta^{*}, \sigma^{2})
+\end{align*}
+
+---
+
+For multiple $x_{i}$, we typically write $y|X \sim N(X^{T} \beta^{*}, \sigma^{2} I)$ for our input matrix $X$.
+
+Our log likelhood will be,
+\begin{align*}
+  \log L(\beta) &= \log P(y|X, \beta) \\
+  &= \log \left( \prod_{i=1}^{n} P(y_{i}|x_{i}, \beta) \right)\\
+  &= \sum_{i=1}^{n} \log P(y_{i}|x_{i}, \beta) \\
+  &= \sum_{i=1}^{n} \log \left( \frac{1}{\sqrt{2\pi \sigma^{2}}} \exp \left( -\frac{(y_{i} - x_{i}^{T} \beta)^{2}}{2\sigma^2}  \right) \right) \\
+\end{align*}
+
+---
+
+\begin{align*}
+  &= n\log(\frac{1}{\sqrt{2\pi \sigma^{2}}}) - \frac{1}{2\sigma^{2}} \sum_{i=1}^{n} (y_{i} - x_{i}^{T} \beta)^{2} \\
+  &= -\frac{n}{2}\log(2\pi \sigma^{2}) - \frac{1}{2\sigma^{2}} \norm{y - X\beta}_{2}^{2}
+\end{align*}
+
+So, to find $\mle{\beta}$, we solve:
+
+\vspace{-0.5cm}
+\begin{align*}
+  \mle{\beta} &= \argmax_{\beta} -\frac{n}{2}\log(2\pi \sigma^{2}) - \frac{1}{2\sigma^{2}} \norm{y - X\beta}_{2}^{2} \\
+  &= \argmax_{\beta} - \frac{1}{2\sigma^{2}} \norm{y - X\beta}_{2}^{2} \\
+  &= \argmin_{\beta} \norm{y - X\beta}_{2}^{2}
+\end{align*}
+
+---
+
+This is just the least squares problem. So our solution is
+\begin{align*}
+  \mle{\beta} &= (X^{T} X)^{-1} X^{T} y \\
+  &= \hat{\beta}_{\text{LS}}
 \end{align*}
