@@ -4,6 +4,7 @@ header-includes: |
 	\usepackage{fancyhdr}
 	\usepackage{physics}
 	\usepackage{hyperref}
+	\usepackage{pgfplots}
 	\usepackage{graphicx}
 	\graphicspath{ {./images/} }
 	\DeclareMathOperator*{\argmax}{arg\,max}
@@ -321,3 +322,292 @@ This is just the least squares problem. So our solution is
   \mle{\beta} &= (X^{T} X)^{-1} X^{T} y \\
   &= \hat{\beta}_{\text{LS}}
 \end{align*}
+
+# Norms
+
+We define the $p$-norm of a vector $x = (x_{1}, x_{2}, \ldots, x_{n})$ as:
+
+\vspace{-0.5cm}
+\begin{align*}
+  \norm{x}_{p} = \left( \sum_{i=1}^{n} |x_{i}|^{p}\right)^{\frac{1}{p}}
+\end{align*}
+
+For a norm $g$ and vectors $x, y$, $g$ needs to satisfy the following conditions to be a valid norm,
+\begin{enumerate}
+        \item Triangle inequality. $g(x+y) \leq g(x) + g(y)$
+        \item Absolute homogeneity. For a constant $c$, $g(cx) = |c| g(x)$
+        \item Positive definiteness. The vector $0$ should have norm $0$.
+\end{enumerate}
+
+
+## Euclidean norm
+
+:::: columns
+::: column
+We've already encountered the Euclidean or $\ell2$ norm as
+\begin{align*}
+  \norm{x}_{2} &= \sqrt{\sum_{i} x_{i}^{2}}
+\end{align*}
+
+If we have a vector $\beta = (\beta_{1}, \beta_{2})$ we can geometrically interpret the 2-norm as
+\begin{align*}
+  \norm{x}_{2} &= \sqrt{\beta_{1}^{2} + \beta_{2}^{2}}
+\end{align*}
+
+:::
+::: column
+\begin{figure}
+\begin{tikzpicture}[pics/axis/.style={code={
+  \draw[-] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\beta_1$};
+  \draw[-] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\beta_2$};
+  }},pics/norm penalty/.style={code={
+  \draw (0,1) to[out=-45+45,in=135-45]
+  (1,0) to[out=-135+45,in=45-45]
+  (0,-1) to[out=135+45,in=-45-45]
+  (-1,0) to[out=45+45,in=-135-45]  cycle;}}]
+\path (0,0) pic{axis} (0,0) pic[blue,thick,looseness=1]{norm penalty=0};
+\end{tikzpicture}
+\end{figure}
+:::
+::::
+
+## $\ell1$ norm
+
+:::: columns
+::: column
+The $\ell1$ norm is defined as:
+\begin{align*}
+  \norm{x}_{1} &= \sum_{i} |x_{i}|
+\end{align*}
+
+Again, if we have a vector $\beta = (\beta_{1}, \beta_{2})$, the plot of the $\ell1$ norm is:
+
+:::
+::: column
+\begin{figure}
+\begin{tikzpicture}[pics/axis/.style={code={
+  \draw[-] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\beta_1$};
+  \draw[-] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\beta_2$};
+  }},pics/norm penalty/.style={code={
+  \draw (0,1) to[out=-45,in=135]
+  (1,0) to[out=-135,in=45]
+  (0,-1) to[out=135,in=-45]
+  (-1,0) to[out=45,in=-135]  cycle;}}]
+\path (0,0) pic{axis} (0,0) pic[blue,thick,looseness=1]{norm penalty=0};
+\end{tikzpicture}
+\end{figure}
+:::
+::::
+
+## $\infty$ norm
+
+:::: columns
+::: column
+The $\infty$ norm is defined as:
+\begin{align*}
+  \norm{x}_{\infty} &= \max_{i} |x_{i}|
+\end{align*}
+
+Again, if we have a vector $\beta = (\beta_{1}, \beta_{2})$, the plot of the $\infty$ norm is:
+
+:::
+::: column
+\begin{figure}
+\begin{tikzpicture}[pics/axis/.style={code={
+  \draw[-] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\beta_1$};
+  \draw[-] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\beta_2$};
+  }},pics/norm penalty/.style={code={
+  \draw (1.25,-1.25) -- (1.25,1.25) -- (-1.25, 1.25) -- (-1.25,-1.25) -- (1.25,-1.25);}}]
+\path (0,0) pic{axis} (0,0) pic[blue,thick,looseness=1]{norm penalty=0};
+\end{tikzpicture}
+\end{figure}
+:::
+::::
+
+## $0.5$ norm
+
+:::: columns
+::: column
+The $0.5$ norm is defined as:
+\begin{align*}
+  \norm{x}_{0.5} &= \left( \sum_{i} \sqrt{x_{i}} \right)^{2}
+\end{align*}
+
+Let's look further into this result, as we could possibly be breaking the rules of norms.
+:::
+::: column
+\begin{figure}
+\begin{tikzpicture}[pics/axis/.style={code={
+  \draw[-] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\beta_1$};
+  \draw[-] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\beta_2$};
+  }},pics/norm penalty/.style={code={
+  \draw (0,1) to[out=-45-20,in=135+20]
+  (1,0) to[out=-135-20,in=45+20]
+  (0,-1) to[out=135-20,in=-45+20]
+  (-1,0) to[out=45-20,in=-135+20]  cycle;}}]
+\path (0,0) pic{axis} (0,0) pic[blue,thick,looseness=1]{norm penalty=0};
+\end{tikzpicture}
+\end{figure}
+:::
+::::
+
+---
+
+Take a point $x = (0, x_{1})$ and $y = (y_{1}, 0)$,
+\begin{align*}
+  \norm{x}_{0.5} &= x_{1} \\
+  \norm{y}_{0.5} &= y_{1} \\
+  \norm{x + y}_{0.5} &= (\sqrt{x_{1}} + \sqrt{y_{1}})^{2} = x_{1} + 2 \sqrt{x_{1}} \sqrt{y_{1}} + y_{1} \\
+\end{align*}
+
+So, $\norm{x + y}_{0.5} > \norm{x}_{0.5} + \norm{y}_{0.5}$ and the triangle inequality does not hold. Therefore, the $p=0.5$ is not a valid norm.
+
+---
+
+The ridge regression problem can be written as:
+
+\begin{align*}
+  \hat{\beta}_{\text{ridge}} = \argmin_{\beta} \{ \norm{y - X \beta}_{2}^{2} + \lambda \norm{\beta}_{2}^{2} \}
+\end{align*}
+
+We can interpret the term $\lambda \norm{\beta}_{2}^{2}$ in the minimisation as finding the $\beta$ with the minimum $2-$norm (multiplied by $\lambda$) while solving the least squares problem.
+
+So, for an arbitrary $k$, we can redefine our problem as
+
+\begin{align*}
+  \hat{\beta}_{\text{ridge}} &= \argmin_{\beta} \{ \norm{y - X \beta}_{2}^{2} \} & \text{ where } \norm{\beta}_{2} \leq k
+\end{align*}
+
+---
+
+For the non-regularised problem, we have
+
+\begin{figure}
+\begin{tikzpicture}[pics/axis/.style={code={
+  \draw[-] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\beta_1$};
+  \draw[-] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\beta_2$};
+  }},pics/norm penalty/.style={code={
+  \draw (0,0.25) to[out=-45+45,in=135-45]
+  (0.25,0) to[out=-135+45,in=45-45]
+  (0,-0.25) to[out=135+45,in=-45-45]
+  (-0.25,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,0.5) to[out=-45+45,in=135-45]
+  (0.5,0) to[out=-135+45,in=45-45]
+  (0,-0.5) to[out=135+45,in=-45-45]
+  (-0.5,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,0.75) to[out=-45+45,in=135-45]
+  (0.75,0) to[out=-135+45,in=45-45]
+  (0,-0.75) to[out=135+45,in=-45-45]
+  (-0.75,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,1) to[out=-45+45,in=135-45]
+  (1,0) to[out=-135+45,in=45-45]
+  (0,-1) to[out=135+45,in=-45-45]
+  (-1,0) to[out=45+45,in=-135-45]
+  cycle;
+}}]
+\path (0,0) pic{axis} (2,2) pic[red,thick,looseness=1]{norm penalty=0};
+\node at (2, 2) {\textbullet};
+\node at (2.5, 2) {$\hat{\beta}_{\text{LS}}$};
+\end{tikzpicture}
+\end{figure}
+
+---
+
+For the ridge regression problem,
+
+\begin{figure}
+\begin{tikzpicture}[pics/axis/.style={code={
+  \draw[-] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\beta_1$};
+  \draw[-] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\beta_2$};
+  }},pics/norm penalty/.style={code={
+  \draw (0,0.25) to[out=-45+45,in=135-45]
+  (0.25,0) to[out=-135+45,in=45-45]
+  (0,-0.25) to[out=135+45,in=-45-45]
+  (-0.25,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,0.5) to[out=-45+45,in=135-45]
+  (0.5,0) to[out=-135+45,in=45-45]
+  (0,-0.5) to[out=135+45,in=-45-45]
+  (-0.5,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,0.75) to[out=-45+45,in=135-45]
+  (0.75,0) to[out=-135+45,in=45-45]
+  (0,-0.75) to[out=135+45,in=-45-45]
+  (-0.75,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,1) to[out=-45+45,in=135-45]
+  (1,0) to[out=-135+45,in=45-45]
+  (0,-1) to[out=135+45,in=-45-45]
+  (-1,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,1.25) to[out=-45+45,in=135-45]
+  (1.25,0) to[out=-135+45,in=45-45]
+  (0,-1.25) to[out=135+45,in=-45-45]
+  (-1.25,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,1.5) to[out=-45+45,in=135-45]
+  (1.5,0) to[out=-135+45,in=45-45]
+  (0,-1.5) to[out=135+45,in=-45-45]
+  (-1.5,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,1.75) to[out=-45+45,in=135-45]
+  (1.75,0) to[out=-135+45,in=45-45]
+  (0,-1.75) to[out=135+45,in=-45-45]
+  (-1.75,0) to[out=45+45,in=-135-45]
+  cycle;
+}}]
+\path (0,0) pic{axis} (2,2) pic[red,thick,looseness=1]{norm penalty=0};
+\node at (2, 2) {\textbullet};
+  \draw[blue, thick] (0,1) to[out=-45+45,in=135-45]
+  (1,0) to[out=-135+45,in=45-45]
+  (0,-1) to[out=135+45,in=-45-45]
+  (-1,0) to[out=45+45,in=-135-45]
+  cycle;
+\end{tikzpicture}
+\end{figure}
+---
+
+For the lasso problem, we have the constraint $\norm{\beta}_{1} \leq k$. So,
+\begin{figure}
+\begin{tikzpicture}[pics/axis/.style={code={
+  \draw[-] (-2.5,0) -- (2.5,0) node[anchor=north west] {$\beta_1$};
+  \draw[-] (0,-2.5) -- (0,2.5) node[anchor=south east] {$\beta_2$};
+  }},pics/norm penalty/.style={code={
+  \draw (0,0.25) to[out=-45+45,in=135-45]
+  (0.25,0) to[out=-135+45,in=45-45]
+  (0,-0.25) to[out=135+45,in=-45-45]
+  (-0.25,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,0.5) to[out=-45+45,in=135-45]
+  (0.5,0) to[out=-135+45,in=45-45]
+  (0,-0.5) to[out=135+45,in=-45-45]
+  (-0.5,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,0.75) to[out=-45+45,in=135-45]
+  (0.75,0) to[out=-135+45,in=45-45]
+  (0,-0.75) to[out=135+45,in=-45-45]
+  (-0.75,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,1) to[out=-45+45,in=135-45]
+  (1,0) to[out=-135+45,in=45-45]
+  (0,-1) to[out=135+45,in=-45-45]
+  (-1,0) to[out=45+45,in=-135-45]
+  cycle;
+  \draw (0,1.25) to[out=-45+45,in=135-45]
+  (1.25,0) to[out=-135+45,in=45-45]
+  (0,-1.25) to[out=135+45,in=-45-45]
+  (-1.25,0) to[out=45+45,in=-135-45]
+  cycle;
+}}]
+\path (0,0) pic{axis} (1,2) pic[red,thick,looseness=1]{norm penalty=0};
+\node at (1, 2) {\textbullet};
+  \draw[blue] (0,1) to[out=-45,in=135]
+  (1,0) to[out=-135,in=45]
+  (0,-1) to[out=135,in=-45]
+  (-1,0) to[out=45,in=-135]
+  cycle;
+\end{tikzpicture}
+\end{figure}
