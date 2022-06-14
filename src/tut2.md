@@ -29,7 +29,7 @@ A probability distribution represents the probability we see a value $x$ in a sa
 ---
 
 ## Expected Values
-An expected value (denoted $\mathbb{E}$) represents the weighted average of the probability distribution. This is typically seen as the value the distribution will converge to over time if sampled randomly.
+An expected value (denoted $\mathbb{E}$) represents the weighted average of the probability distribution. This is typically seen as the value the random variable will converge to over time if sampled randomly.
 
 For a discrete random variable, the form for an expected value is as follows:
 \begin{align*}
@@ -144,7 +144,7 @@ Next, we differentiate with respect to our parameter $\mu$,
 \begin{align*}
     \frac{\partial\log L(\mu)}{\partial\mu} &= \sum_{i=1}^n (X_i - \mu) \\
     &= \sum_{i=1}^n X_i - n\mu \\
-    \frac{\partial\log L(\mu)}{\partial\hat{\mu}} = 0 & \text{ at the minimum. So, } \\
+    \frac{\partial\log L(\mu)}{\partial\hat{\mu}} = 0 & \text{ at the maximum. So, } \\
     \sum_{i=1}^n X_i - n \hat{\mu} &= 0 \\
     \hat{\mu} &= \frac{1}{n} \sum_{i=1}^n X_i \\
     \hat{\mu} &= \bar{X}
@@ -166,7 +166,7 @@ First, we define our likelihood function:
 
 \vspace{-.5cm}
 \begin{align*}
-    \log L(\mu) &= \log \left( \prod_{i=1}^n p^{X_i}(1-p)^{X_{i}} \right) \\
+    \log L(p) &= \log \left( \prod_{i=1}^n p^{X_i}(1-p)^{X_{i}} \right) \\
     &= \sum_{i=1}^{n} \log p^{X_i} + \sum_{i=1}^{n} \log (1-p)^{X_{i}} \\
     &= n \bar{X} \log p + n(1-\bar{X})\log(1-p)
 \end{align*}
@@ -178,7 +178,7 @@ Next, we differentiate with respect to our parameter $p$,
 \vspace{-.5cm}
 \begin{align*}
     \frac{\partial\log L(p)}{\partial p} &= \frac{n \bar{X}}{p} - \frac{n(1-\bar{X})}{1-p} \\
-    \frac{\partial\log L(p)}{\partial\hat{p}} = 0 & \text{ at the minimum. So, } \\
+    \frac{\partial\log L(p)}{\partial\hat{p}} = 0 & \text{ at the maximum. So, } \\
     \frac{n \bar{X}}{\hat{p}} - \frac{n(1-\bar{X})}{1-\hat{p}} &= 0 \\
     n \bar{X} - n \bar{X}\hat{p} &= n(1-\bar{X})\hat{p} \\
      \hat{p}(n(1-\bar{X}) + n \bar{X}) &=n \bar{X}  \\
@@ -210,7 +210,7 @@ When applying this to a model, we'll discover that a large variance and a low bi
 
 # 2 (a, b, c)
 ## 2a
-*Problem*: Find the bias and variance of $\mle{\mu}$ for $\mathbf{X} \sim N(\mu, 1)$.
+*Problem*: Find the bias and variance of $\mle{\mu}$ for $X \sim N(\mu, 1)$.
 
 We know that $\mle{\mu} = \bar{X}$. So,
 \begin{align*}
@@ -258,8 +258,8 @@ We know that $\mle{p} = \overline{X}$, so
 Perform bias-variance decomposition i.e prove that MSE$(\hat{\theta}) =$bias$(\hat{\theta})^{2}$ + var$(\hat{\theta})$.
 
 \begin{align*}
-  \text{MSE}(\hat{\theta}) &= \mathbb{E}(\hat{\theta} - \theta)^{2} \\
-  &= \mathbb{E}\left[\hat{\theta} - \mathbb{E}(\hat{\theta}) + \mathbb{E}(\hat{\theta}) - \theta\right]^{2} \\
+  \text{MSE}(\hat{\theta}) &= \mathbb{E}\left[(\hat{\theta} - \theta)^{2}\right] \\
+  &= \mathbb{E}\left[ \left( \hat{\theta} - \mathbb{E}(\hat{\theta}) + \mathbb{E}(\hat{\theta}) - \theta\right)^{2}\right] \\
   &= \mathbb{E}\left[(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + 2(\hat{\theta} - \mathbb{E}(\hat{\theta}))(\mathbb{E}(\hat{\theta}) - \theta) + (\mathbb{E}(\hat{\theta}) - \theta)^{2}\right] \\
   &= \mathbb{E}(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + 2\mathbb{E}[(\hat{\theta} - \mathbb{E}(\hat{\theta}))(\mathbb{E}(\hat{\theta}) - \theta)] + \mathbb{E}((\mathbb{E}(\hat{\theta}) - \theta)^{2}) \\
   &= \mathbb{E}(\hat{\theta} - \mathbb{E}(\hat{\theta}))^{2} + 2(\mathbb{E}(\hat{\theta}) - \mathbb{E}(\hat{\theta}))(\mathbb{E}(\hat{\theta}) - \mathbb{E}(\theta)) + \mathbb{E}((\mathbb{E}(\hat{\theta}) - \theta)^{2}) \\
