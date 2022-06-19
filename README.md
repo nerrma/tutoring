@@ -2,6 +2,8 @@
 
 Tutoring materials for COMP9417.
 
-In the root directory:
-- Make notes using `make notes/tutX.pdf`.
-- Make slides using `make slides/slides_tutX.pdf`.
+Just use `make` to make the slides.
+
+For more pointed
+- Make slides using `make slides`.
+- Make notes using `make notes`. This isn't used often.
