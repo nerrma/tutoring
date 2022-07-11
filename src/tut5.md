@@ -294,3 +294,26 @@ So our Gram matrix is:
 **Why is this useful?**
 
 # Support Vector Machines
+
+\centering
+\includegraphics[scale=0.5]{tut5_svm_plot.png}
+
+---
+
+The basic SVM is a linear classifier defined by:
+
+\begin{align*}
+  \argmin_{w, t} \frac{1}{2} \norm{w}^{2} && \text{subject to } y_{i} (\langle x_{i}, w \rangle - t) \geq m
+\end{align*}
+
+where $t$ is the line's intercept, and we a consider a margin $m$. Typically, we'll see $m=1$ for a standardised dataset.
+
+\pause
+
+This formulation means that we find the **maximal margin** classifier for the dataset.
+
+## Hinge Loss
+
+## The Dual Problem
+
+## A worked example
