@@ -312,8 +312,181 @@ where $t$ is the line's intercept, and we a consider a margin $m$. Typically, we
 
 This formulation means that we find the **maximal margin** classifier for the dataset.
 
-## Hinge Loss
+## Aside: Lagrangian Dual Problem
 
-## The Dual Problem
+Say we have a problem as follows:
 
-## A worked example
+\begin{align*}
+  \max_{x, y} xy && \text{subject to } x + y = 4
+\end{align*}
+
+we can also consider the constraint as $x + y - 4 = 0$.
+
+\pause
+
+We can set up the Lagrangian dual and *move* the constraint into the function itself:
+\begin{align*}
+  \Lambda(x, y, \lambda) = xy + \lambda(x+y-4)
+\end{align*}
+
+\pause
+
+To solve this, we can calculate $\frac{\partial L}{\partial x}$, $\frac{\partial L}{\partial y}$ and $\frac{\partial L}{\partial \lambda}$ and solve the remaining system of equations.
+
+## The General Form of a Dual Problem
+
+If we have a problem:
+\begin{align*}
+  \argmin_{x} f(x) \\
+  \text{subject to } &g_{i}(x) \leq 0, && i \in \{1, \ldots, n\} \\
+\end{align*}
+
+\pause
+
+The general *dual* problem is:
+\begin{align*}
+  \Lambda(\mathbf{x}, \mathbf{\lambda}) = f(\mathbf{x}) + \sum_{i=1}^{n} \lambda_{i} g_{i}(x_{i})
+\end{align*}
+
+## The Dual Problem for SVM
+
+If we take the general SVM problem ($m = 1$):
+\begin{align*}
+  \only<1>{ \argmin_{w, t} \frac{1}{2} \norm{w}^{2} && \text{subject to } y_{i} (\langle x_{i}, w \rangle - t) \geq 1}
+  \only<2->{ \argmin_{w, t} \frac{1}{2} \norm{w}^{2} && \text{subject to } y_{i} (\langle x_{i}, w \rangle - t) - 1 \geq 0}
+\end{align*}
+
+\pause
+\pause
+
+From the general form, we can take the vector $\alpha$ to form the dual problem:
+\begin{align*}
+  \Lambda(w, t, \alpha) = \frac{1}{2} \norm{w}^{2} + \left(-\sum_{i=1}^{n} \alpha_{i} y_{i} (\langle x_{i}, w \rangle - t)- 1) \right)
+\end{align*}
+
+---
+
+\begin{align*}
+  \only<1->{\Lambda(w, t, \alpha) &= \frac{1}{2} \norm{w}^{2} + \left(-\sum_{i=1}^{n} \alpha_{i} y_{i} (\langle x_{i}, w \rangle - t)- 1) \right) } \\
+  \only<2->{\Lambda(w, t, \alpha) &= \frac{1}{2} \norm{w}^{2} -\sum_{i=1}^{n} \alpha_{i} y_{i} (w \cdot x_{i}) + t \sum_{i=1}^{n} \alpha_{i} y_{i}+ \sum_{i=1}^{n} \alpha_{i}} \\
+  \only<3->{\Lambda(w, t, \alpha) &= \frac{1}{2} \norm{w}^{2} - w \cdot \sum_{i=1}^{n} \alpha_{i} y_{i} x_{i} + t \sum_{i=1}^{n}\alpha_{i} y_{i}+ \sum_{i=1}^{n} \alpha_{i} } \\
+\end{align*}
+
+---
+
+Let's try and optimise the Lagrangian $\Lambda$ w.r.t $w$,
+
+\begin{align*}
+  \only<1->{\Lambda(w, t, \alpha) &= \frac{1}{2} \norm{w}^{2} - w \cdot \sum_{i=1}^{n} \alpha_{i} y_{i} x_{i} + t \sum_{i=1}^{n}\alpha_{i} y_{i}+ \sum_{i=1}^{n} \alpha_{i} } \\
+  \only<2->{\frac{\partial \Lambda}{\partial w} &= \frac{1}{2} 2 w - \sum_{i=1}^{n} \alpha_{i} y_{i} x_{i}} \\
+  \only<3->{&= w - \sum_{i=1}^{n} \alpha_{i} y_{i} x_{i}} \\
+  \only<4->{\text{We can see that at } \frac{\partial \Lambda}{\partial w} = 0 \\
+  w &= \sum_{i=1}^{n} \alpha_{i} y_{i} x_{i}} \\
+\end{align*}
+
+---
+
+Repeating a similar process for $t$,
+
+\begin{align*}
+  \only<1->{\Lambda(w, t, \alpha) &= \frac{1}{2} \norm{w}^{2} - w \cdot \sum_{i=1}^{n} \alpha_{i} y_{i} x_{i} + t \sum_{i=1}^{n}\alpha_{i} y_{i}+ \sum_{i=1}^{n} \alpha_{i} } \\
+  \only<2->{\frac{\partial \Lambda}{\partial t} &=  \sum_{i=1}^{n} \alpha_{i} y_{i}} \\
+  \only<3->{\text{We can see that at } \frac{\partial \Lambda}{\partial t} = 0 \\
+  \sum_{i=1}^{n} \alpha_{i} y_{i} &= 0} \\
+\end{align*}
+
+## The Dual Problem for SVM
+
+We've derived that for an optimal solution, $\sum_{i=1}^{n} \alpha_{i} y_{i} = 0$ and $w = \sum_{i=1}^{n} \alpha_{i} y_{i} x_{i}$
+
+\begin{align*}
+  \only<1->{\Lambda(w, t, \alpha) &= \frac{1}{2} \norm{w}^{2} - w \cdot \sum_{i=1}^{n} \alpha_{i} y_{i} x_{i} + t \sum_{i=1}^{n}\alpha_{i} y_{i}+ \sum_{i=1}^{n} \alpha_{i} } \\
+  \only<2->{\Lambda(w, \alpha) &= \frac{1}{2} w^{T} w - w^{T} w + \sum_{i=1}^{n} \alpha_{i} } \\
+  \only<3->{\Lambda(w, \alpha) &= -\frac{1}{2} w^{T} w + \sum_{i=1}^{n} \alpha_{i} } \\
+  \only<4->{\Lambda(\mathbf{\alpha}) &= -\frac{1}{2} \sum_{i=1}^{n}\sum_{j=1}^{n} \alpha_{i} \alpha_{j} y_{i} y_{j} (x_{i} \cdot x_{j}) + \sum_{i=1}^{n} \alpha_{i} } \\
+\end{align*}
+
+---
+
+Our final problem now has relaxed constraints:
+
+\begin{align*}
+  \Lambda(\mathbf{\alpha}) &= -\frac{1}{2} \sum_{i=1}^{n}\sum_{j=1}^{n} \alpha_{i} \alpha_{j} y_{i} y_{j} (x_{i} \cdot x_{j}) + \sum_{i=1}^{n} \alpha_{i} \\
+  \text{subject to } &\sum_{i=1}^{n} \alpha_{i}y_{i} = 0 \\
+   &\alpha_{i} \geq 0 \text{ for } i = 1, \ldots, n\\
+\end{align*}
+
+
+## Soft Margin SVM
+
+Our current model is a **maximum** or hard margin classifier. To allow for errors *within* the supporting hyperplanes, we can redefine the primal problem as:
+
+\begin{align*}
+  \argmin_{w, t, \xi} \frac{1}{2} \norm{w}^{2} + C \sum_{i=1}^{n} \xi_{i} && \text{subject to } y_{i} (\langle x_{i}, w \rangle - t) \geq 1 - \xi_{i} \text{ where } \xi_{i} \geq 0
+\end{align*}
+
+we typically take $\xi_{i}$ as the *hinge loss* of a point.
+
+## A Slight Extension: Hinge Loss
+
+We define hinge loss for a data point at $(x_{i}, y_{i})$ as:
+\begin{align*}
+  \xi_{i} = \max(0, 1 - y_{i}(w^{T}x_{i} - b))
+\end{align*}
+
+\pause
+
+\centering
+\includegraphics[scale=0.175]{tut5_hinge_loss.png}
+
+---
+
+So, the function we minimise is essentially:
+
+\begin{align*}
+  \argmin_{w, t, \xi} \frac{1}{2} \norm{w}^{2} + C  \max(0, 1 - y_{i}(w^{T}x_{i} - b)) \\
+\end{align*}
+
+\begin{align*}
+  \text{subject to } y_{i} (\langle x_{i}, w \rangle - t) \geq 1 - \max(0, 1 - y_{i}(w^{T}x_{i} - b))
+\end{align*}
+
+
+# Extension: The RBF Kernel
+
+A popular Kernel is the Radial Basis Function kernel, defined below:
+
+\begin{align*}
+  K(x, y) = \exp\left(-\frac{\norm{x - y}^{2}}{2 \sigma^{2}}\right) \\
+\end{align*}
+
+for scalar values:
+
+\begin{align*}
+  K(x, y) = \exp\left(-\frac{(x - y)^{2}}{2 \sigma^{2}}\right) \\
+\end{align*}
+
+---
+
+\begin{align*}
+  \only<1->{K(x, y) &= \exp\left(\frac{(x - y)^{2}}{2 \sigma^{2}}\right)} \\
+  \only<2->{&= \exp\left(\frac{-x^{2} + 2xy - y^{2}}{2 \sigma^{2}}\right)} \\
+  \only<3->{&= \exp\left(\frac{-x^{2}}{2 \sigma^{2}}\right)\exp\left(\frac{-y^{2}}{2 \sigma^{2}}\right)\exp\left(\frac{xy}{\sigma^{2}}\right)} \\
+  \only<4->{&= \exp\left(\frac{-x^{2}}{2 \sigma^{2}}\right)\exp\left(\frac{-y^{2}}{2 \sigma^{2}}\right)\sum_{i=1}^{\infty}\frac{(xy)^{k}}{\sigma^{2k}k!}} \\
+\end{align*}
+
+----
+
+By definition
+\begin{align*}
+  \langle \phi(x), \phi(y) \rangle&= \exp\left(\frac{-x^{2}}{2 \sigma^{2}}\right)\exp\left(\frac{-y^{2}}{2 \sigma^{2}}\right)\sum_{i=1}^{\infty}\frac{(xy)^{k}}{\sigma^{2k}k!} \\
+\end{align*}
+
+So, our basis transformation is:
+\begin{align*}
+  \phi(x) &= \exp\left(\frac{-x^{2}}{2 \sigma^{2}}\right)\sum_{i=1}^{\infty}\frac{x^{k}}{\sigma^{k}\sqrt{k!}} \\
+\end{align*}
+
+*What does this represent?*
+\pause
+A projection to infinite dimensions!
