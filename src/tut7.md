@@ -62,8 +62,6 @@ This course discuses what makes up neural networks, partially why they are effec
 	\node[below of=n,font=\scriptsize] {weights};
 \end{tikzpicture}
 
-\pause
-
 # Multi-layer Perceptron
 
 A multi-layer perceptron is where we *chain* these perceptrons to learn non-linear patterns.
@@ -81,7 +79,7 @@ If we define the activation function used for the hidden layer as $g$ and the we
 \begin{align*}
   f(X) &= w_{0} + \sum_{i=1}^{n} w_{i} A_{i} \\
   \only<3>{&= w_{0} + \sum_{i=1}^{n} w_{i} g(X_{i}) \\}
-  \only<4->{&= w_{0} + \sum_{i=1}^{n} w_{i} g(\beta_{k0} + \sum_{j=1}^{p} \beta_{kj} X_{i}) \\}
+  \only<4->{&= w_{0} + \sum_{i=1}^{n} w_{i} g(\beta_{0} + \sum_{j=1}^{p} \beta_{j} X_{i}) \\}
 \end{align*}
 :::
 ::::
@@ -197,3 +195,10 @@ Let's visualise a neural network working:
 \centering
 
 \href{https://playground.tensorflow.org/}{Tensorflow Playground}
+
+# Reminder: Revision
+
+\centering
+Next week is the last week of tutorials!
+
+Are there any specific topics you want resources or revision on?
